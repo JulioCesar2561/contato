@@ -38,4 +38,10 @@ public class EnderecoService {
         return enderecoListaDTO;
     }
 
+    public void salvar(List<Endereco> list){
+        for (Endereco end: list) {
+            enderecoRepository.save(end);
+        }
+    }
+
 }

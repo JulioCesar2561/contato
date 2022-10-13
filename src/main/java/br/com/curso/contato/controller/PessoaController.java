@@ -3,12 +3,11 @@ package br.com.curso.contato.controller;
 import br.com.curso.contato.dto.PessoaDTO;
 import br.com.curso.contato.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 
 @RestController
@@ -52,5 +51,29 @@ public class PessoaController {
         return pessoaService.listarPessoas();
     }
 
+    @PostMapping(value = "/salvar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public PessoaDTO salvar(@RequestBody PessoaDTO pessoaDTO){
+        return pessoaService.salvar(pessoaDTO);
+    }
+
+    @GetMapping(value = "/consultar/id/{id}")
+    public PessoaDTO consultaPorId(@PathVariable Integer id){
+
+        if(id == 0){
+            return null;
+        }else {
+            PessoaDTO pessoaDTOConsulta = pessoaService.consultarId(id);
+            return pessoaDTOConsulta;
+        }
+    }
+
+    @GetMapping(value = "/consultar/nome/{nome}")
+    public List<PessoaDTO> consultaPorNome(@PathVariable String nome){
+
+        List<PessoaDTO> pessoasConsultaNome = pessoaService.consultarNome(nome.toUpperCase());
+        return pessoasConsultaNome;
+
+    }
 }
 
